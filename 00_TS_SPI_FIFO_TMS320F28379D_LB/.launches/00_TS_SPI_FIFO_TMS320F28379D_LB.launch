@@ -16,7 +16,7 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROGRAM.TMS320F28379D.ccxml.Texas Instruments XDS100v2 USB Debug Probe/C28xx_CPU1" value="${build_artifact:00_TS_SPI_FIFO_TMS320F28379D_LB}"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.TMS320F28379D.ccxml.Texas Instruments XDS100v2 USB Debug Probe/C28xx_CPU1" value="00_TS_SPI_FIFO_TMS320F28379D_LB"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:00_TS_SPI_FIFO_TMS320F28379D_LB}"/>
-<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.TMS320F28379D.ccxml.Texas Instruments XDS100v2 USB Debug Probe/C28xx_CPU1" value="C:\Users\STarikUser\workspace_v10\00_TS_SPI_FIFO_TMS320F28379D_LB\FLASH\00_TS_SPI_FIFO_TMS320F28379D_LB.out"/>
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.TMS320F28379D.ccxml.Texas Instruments XDS100v2 USB Debug Probe/C28xx_CPU1" value="C:\Users\STarikUser\Documents\Github\TMS320F2837xD-08_TS_SPI\00_TS_SPI_FIFO_TMS320F28379D_LB\FLASH\00_TS_SPI_FIFO_TMS320F28379D_LB.out"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/00_TS_SPI_FIFO_TMS320F28379D_LB"/>
 </listAttribute>

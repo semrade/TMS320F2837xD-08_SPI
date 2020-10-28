@@ -1,7 +1,7 @@
 /***********************************************************************************
  * File                     :main.c
  *
- * Title                    :
+ * Title                    : SPI A and SPI B communication using FIFO buffers 16*16 Bytes.
  *
  * Author                   :Tarik SEMRADE
  *
@@ -12,6 +12,9 @@
  *                             -GPIO27 and GPIO19 - SPISTE
  *                             -GPIO26 and GPIO18 - SPICLK
  *
+ *                              In this tutorial I use the 2 reception FIFO for SPI A and SPIB with 16x16 FIFO.
+ *                              16word will be sent by B to A, A will capture it by RX interrupt using 16 level FIFO and send it back to A, A will capture
+ *                              it by RX interrupt using 16 level FIFO.
  * Version                  :
  *
  * Copyright (c) 2020 Tarik SEMRADE
@@ -125,7 +128,10 @@ void main(void)
         {
             /* Send 16 characters, the max FIFO buffer */
             SPI_writeDataBlockingNonFIFO(SPIB_BASE, sData[i]);
+
         }
+
+        NOP;
 
         /* Increment the data for a new frame of 16 words */
         for (i = 0; i < 16; i++)

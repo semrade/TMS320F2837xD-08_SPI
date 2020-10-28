@@ -50,7 +50,7 @@ extern volatile uint16_t rData[];                // Receive data buffer
  *  Defines
  *
  *********************************************************************************/
-#define DELAY_CYCLE_WORD 0u
+#define DELAY_CYCLE_WORD 10u
 #define DATA_LENTGH 16u
 #define TX_FIFO 0u
 #define SPEED_SPI_MASTER  500000uL

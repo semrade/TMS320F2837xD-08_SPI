@@ -82,14 +82,13 @@ void TS_SysMng_InitSpiBMaster(void)
     SPI_clearInterruptStatus(SPIB_BASE, SPI_INT_TXFF);
 
     /* TX FIFO Level interrupt = 8 */
-    SPI_setFIFOInterruptLevel(SPIB_BASE, SPI_FIFO_TX8, SPI_FIFO_RX2);
+    SPI_setFIFOInterruptLevel(SPIB_BASE, SPI_FIFO_TX2, SPI_FIFO_RX16);
     SPI_enableInterrupt(SPIB_BASE, SPI_INT_TXFF);
-
-    /* Delay between words*/
-    SPI_setTxFifoTransmitDelay(SPIB_BASE,DELAY_CYCLE_WORD);
 
 #endif
 
+    /* Delay between words*/
+    SPI_setTxFifoTransmitDelay(SPIB_BASE,DELAY_CYCLE_WORD);
 
     /* Configuration complete. Enable the module. */
     SPI_enableModule(SPIB_BASE);
@@ -112,7 +111,7 @@ void TS_SysMng_InitSpiASlave(void)
     SPI_disableLoopback(SPIA_BASE);
     SPI_setEmulationMode(SPIA_BASE, SPI_EMULATION_FREE_RUN);
 
-    /* FIFO and interrupt configuration */
+    /* enable FIFO and interrupt configuration */
     SPI_enableFIFO(SPIA_BASE);
     SPI_clearInterruptStatus(SPIA_BASE, SPI_INT_RXFF);
 
@@ -128,16 +127,16 @@ void TS_SysMng_InitSpiASlave(void)
 }
 /**********************************************************************************
  * \function:       TS_SysMng_SpibTxFIFOISR
- * \brief              PIE1.1 @0x000D40  ADC-A interrupt #1
+ * \brief
  * \param[in]       void
- * \return           void
+ * \return          void
  **********************************************************************************/
 __interrupt void TS_SysMng_SpibTxFIFOISR(void)
 {
     uint16_t i;
 
     /* Checking the FIFO level before each write to make sure you don't overrun the TX FIFO */
-    if (SPI_getTxFIFOStatus(SPIB_BASE) <=16)
+    if (SPI_getTxFIFOStatus(SPIB_BASE) <= 16)
     {
         /* Send data */
         for (i = 0; i < DATA_LENTGH; i++)
@@ -152,16 +151,15 @@ __interrupt void TS_SysMng_SpibTxFIFOISR(void)
         sData[i] = sData[i] + 1;
     }
 
-
     /* Clear interrupt flag and issue ACK */
     SPI_clearInterruptStatus(SPIB_BASE, SPI_INT_TXFF);
     Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP6);
 }
 /**********************************************************************************
  * \function:       TS_SysMng_SpibTxFIFOISR
- * \brief              PIE1.1 @0x000D40  ADC-A interrupt #1
+ * \brief
  * \param[in]       void
- * \return           void
+ * \return          void
  **********************************************************************************/
 __interrupt void TS_SysMng_SpiaRxFIFOISR(void)
 {
@@ -173,10 +171,10 @@ __interrupt void TS_SysMng_SpiaRxFIFOISR(void)
         rData[i] = SPI_readDataBlockingFIFO(SPIA_BASE);
     }
 
-    /* Check received data */
+    /* Increment the data for a new frame of 16 words */
     for (i = 0; i < DATA_LENTGH; i++)
     {
-        if ((1 + rData[i]) != sData[i])
+        if ((rData[i]) != sData[i])
         {
             /* Something went wrong. rData doesn't contain expected data. */
             Example_Fail = 1;
@@ -184,6 +182,12 @@ __interrupt void TS_SysMng_SpiaRxFIFOISR(void)
         }
     }
 
+//    /* Send this data back to the main function */
+//    for (i = 0; i < 16; i++)
+//    {
+//        /* Send 16 characters, the max FIFO buffer */
+//        SPI_writeDataBlockingNonFIFO(SPIA_BASE, rData[i]);
+//    }
     /* Clear interrupt flag and issue ACK */
     SPI_clearInterruptStatus(SPIA_BASE, SPI_INT_RXFF);
     Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP6);
